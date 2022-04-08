@@ -46,7 +46,6 @@ module.exports = class Product {
 
   static deleteproductbyID(id) {
     getProductsFromFile(products => {
-      console.log('aaa ', id);
       const product = products.find(p => p.id === id);
       const updatedProducts = products.filter(p => p.id !== id);
       fs.writeFile(p, JSON.stringify(updatedProducts), err => {
