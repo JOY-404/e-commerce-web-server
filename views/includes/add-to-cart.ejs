@@ -1,0 +1,8 @@
+<form action="/cart" method="POST">
+    <button type="submit" class="btn">Add to Cart</button>
+    <input type="hidden" name="productId" value="<%= product.id %>">
+    <br>
+    Size: <input type="radio" id="S" name="prodSize" value="S" checked><label for="S">S</label>
+    <input type="radio" id="M" name="prodSize" value="M"><label for="M">M</label>
+    <input type="radio" id="L" name="prodSize" value="L"><label for="L">L</label>
+</form>
