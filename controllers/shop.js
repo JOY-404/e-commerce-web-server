@@ -4,13 +4,13 @@ const CartItem = require('../models/cart-item');
 
 exports.getProducts = (req, res, next) => {
   Product.findAll().then((products) => {
-    res.json(products);
+    res.status(200).json(products);
     // res.render('shop/product-list', {
     //   prods: products,
     //   pageTitle: 'All Products',
     //   path: '/products'
     // });
-  }).catch(err=>console.log(err));
+  }).catch(err => res.status(500).json());
 };
 
 exports.getProduct = (req, res, next) => {
@@ -37,16 +37,20 @@ exports.getIndex = (req, res, next) => {
 exports.getCart = (req, res, next) => {
   req.user.getCart().then(cart=>{
     return cart.getProducts().then(products => {
-        res.render('shop/cart', {
-          path: '/cart',
-          pageTitle: 'Your Cart',
-          products: products
-      });
-    }).catch(err => console.log(err));
-  }).catch(err => console.log(err));
+      res.status(200).json(products);
+      //   res.render('shop/cart', {
+      //     path: '/cart',
+      //     pageTitle: 'Your Cart',
+      //     products: products
+      // });
+    }).catch(err => res.status(500).json());
+  }).catch(err => res.status(500).json());
 };
 
 exports.postCart = (req, res, next) => {
+  if (!req.body.productId) {
+    return res.status(400).json();
+  }
   const prodId = req.body.productId;
   let fetchedCart;
   let newQty = 1;
@@ -69,11 +73,10 @@ exports.postCart = (req, res, next) => {
   }).then(product => {
     // This will add new record or update old record
     return fetchedCart.addProduct(product, { through: { quantity: newQty } });
-  }).then(()=>{
-    res.json({"status" : "S"});
+  }).then(result=>{
+    res.status(200).json();
   }).catch(err => {
-    console.log(err);
-    res.json({ "status": "F" });
+    res.status(500).json();
   });
 }
 
@@ -84,8 +87,8 @@ exports.postCartDeleteProduct = (req, res, next) => {
   }).then(products=>{
     const product = products[0];
     return product.cartItems.destroy();
-  }).then(()=>res.redirect('/cart'))
-  .catch(err=>console.log(err));
+  }).then(() => res.status(200).json())
+    .catch(err => res.status(500).json());
 };
 
 exports.getOrders = (req, res, next) => {
