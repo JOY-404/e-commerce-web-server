@@ -70,8 +70,11 @@ exports.postCart = (req, res, next) => {
     // This will add new record or update old record
     return fetchedCart.addProduct(product, { through: { quantity: newQty } });
   }).then(()=>{
-    res.redirect('/cart');
-  }).catch(err => console.log(err));
+    res.json({"status" : "S"});
+  }).catch(err => {
+    console.log(err);
+    res.json({ "status": "F" });
+  });
 }
 
 exports.postCartDeleteProduct = (req, res, next) => {
