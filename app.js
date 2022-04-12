@@ -12,6 +12,9 @@ const CartItem = require('./models/cart-item');
 
 const app = express();
 
+// CORS is for cross communication - data sharing
+var cors = require('cors');
+app.use(cors());
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
