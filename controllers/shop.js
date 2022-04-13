@@ -1,10 +1,27 @@
 const Product = require('../models/product');
 const Cart = require('../models/cart');
 const CartItem = require('../models/cart-item');
+const sequelize = require('../util/database');
+const ITEMS_PER_PAGE = 3;
+const CART_ITEMS_PER_PAGE = 2;
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll().then((products) => {
-    res.status(200).json(products);
+  const page = parseInt(req.query.page) || 1;
+  let totalItems;
+
+  Product.findAndCountAll().then(numProducts => {
+    totalItems = numProducts.count;
+    return Product.findAll({ limit: ITEMS_PER_PAGE, offset: (page - 1) * ITEMS_PER_PAGE })
+  }).then((products) => {
+    res.status(200).json({
+      products: products,
+      currPage: page,
+      hasNextPage: page * ITEMS_PER_PAGE < totalItems,
+      hasPrevPage: page > 1,
+      nextPage: page + 1,
+      prevPage: page - 1,
+      lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+    });
     // res.render('shop/product-list', {
     //   prods: products,
     //   pageTitle: 'All Products',
@@ -35,16 +52,43 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  req.user.getCart().then(cart=>{
-    return cart.getProducts().then(products => {
-      res.status(200).json(products);
+  const page = parseInt(req.query.page) || 1;
+  let totItems;
+  let qryResult;
+  
+  req.user.getCart().then(async cart => {
+    //console.log(cart.dataValues.id);
+    const qry = `SELECT CASE WHEN ISNULL(COUNT(p.id)) THEN 0 ELSE COUNT(p.id) END AS cnt,
+      CASE WHEN ISNULL(SUM(quantity)) THEN 0 ELSE SUM(quantity) END AS totQty, 
+      CASE WHEN ISNULL(SUM(quantity * price)) THEN 0 ELSE SUM(quantity * price) END AS totAmt 
+      FROM \`node-connect\`.cartitems as c INNER JOIN \`node-connect\`.products as p ON p.id=c.productId 
+      WHERE c.cartId=${cart.dataValues.id}`;
+    
+      qryResult = await sequelize.query(qry);
+    //console.log(qryResult[0][0]);
+    return req.user.getCart().then(cart => cart.getProducts({
+      limit: CART_ITEMS_PER_PAGE,
+      offset: (page - 1) * CART_ITEMS_PER_PAGE
+    })).catch(err => res.status(500).json());
+  }).then(products => {
+    totItems = qryResult[0][0].cnt;
+    res.status(200).json({
+      products: products,
+      currPage: page,
+      hasNextPage: page * CART_ITEMS_PER_PAGE < totItems,
+      hasPrevPage: page > 1,
+      nextPage: page + 1,
+      prevPage: page - 1,
+      lastPage: Math.ceil(totItems / CART_ITEMS_PER_PAGE),
+      cartTotQty: qryResult[0][0].totQty,
+      cartTotPrice: qryResult[0][0].totAmt
+    });
       //   res.render('shop/cart', {
       //     path: '/cart',
       //     pageTitle: 'Your Cart',
       //     products: products
       // });
-    }).catch(err => res.status(500).json());
-  }).catch(err => res.status(500).json());
+  }).catch (err => res.status(500).json());
 };
 
 exports.postCart = (req, res, next) => {
