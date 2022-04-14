@@ -135,59 +135,63 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .catch(err => res.status(500).json());
 };
 
+// below function is important
 exports.postCreateOrder = (req, res, next) => {
   const totAmt = req.body.totAmt;
   const orderDate = new Date();
-  let cartProducts;
+  let fetchedCart;
 
-  req.user.getCart().then(cart => {
-    cart.getProducts().then(cartItems => {
-      cartProducts = cartItems;
-      if (cartItems.length > 0) {
+  req.user
+    .getCart()
+    .then(cart => {
+      fetchedCart = cart;
+      return cart.getProducts();
+    })
+    .then(cartProducts => {
+      if (cartProducts.length > 0) {
         req.user.createOrder({
           orderDate: orderDate,
           totalAmt: totAmt
-        }).then(order => {
-          cartProducts.forEach(cartItem => {
-            const productId = cartItem.dataValues.id;
-            const quantity = parseInt(cartItem.dataValues.cartItems.quantity);
-            const totAmt = parseFloat(cartItem.dataValues.price) * quantity;
-            // Delete cart item
-            cartItem.cartItems.destroy();
-            // add order item
-            Product.findByPk(productId).then(product => {
-              order.addProduct(product, {
-                through: {
-                  quantity: quantity,
-                  totalAmt: totAmt
-                }
-              });
-            }).catch(err => res.status(500).json({ success: false }));
-          });
-
-          res.status(200).json({
-            orderid: order.dataValues.id,
-            success: true
-          });
-        }).catch(err => res.status(500).json({ success: false }));
+        })
+        .then(order => {
+          order.addProducts(
+            cartProducts.map(product => {
+              product.orderdetails = { 
+                quantity: product.cartItems.quantity,
+                totalAmt: parseFloat(product.price) * parseFloat(product.cartItems.quantity)
+              }
+              return product;
+            })
+          )
+          .then(resp => {
+            // delete cart items 
+            return fetchedCart.setProducts(null);
+          })
+          .then(resp => {
+            res.status(200).json({
+              orderid: order.dataValues.id,
+              success: true
+            });
+          })
+          .catch(err => res.status(500).json({ success: false }));
+        })
+        .catch(err => res.status(500).json({ success: false }));
       }
       else {
         res.status(400).json({ success: false });
       }
-    });
-  });
+    })
+    .catch(err => res.status(500).json({ success: false }));
 }
 
 exports.getOrders = (req, res, next) => {
-  res.render('shop/orders', {
-    path: '/orders',
-    pageTitle: 'Your Orders'
-  });
-};
-
-exports.getCheckout = (req, res, next) => {
-  res.render('shop/checkout', {
-    path: '/checkout',
-    pageTitle: 'Checkout'
-  });
+  req.user.getOrders({ 
+    include: ['products'], //This will also add products table to our result - important
+    order: [
+      ['orderDate', 'DESC'],
+      ['id', 'DESC']
+    ]
+  }) 
+  .then(orders => res.status(200).json(orders))
+  .catch(err => console.log(err));
 };
