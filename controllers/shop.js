@@ -135,6 +135,49 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .catch(err => res.status(500).json());
 };
 
+exports.postCreateOrder = (req, res, next) => {
+  const totAmt = req.body.totAmt;
+  const orderDate = new Date();
+  let cartProducts;
+
+  req.user.getCart().then(cart => {
+    cart.getProducts().then(cartItems => {
+      cartProducts = cartItems;
+      if (cartItems.length > 0) {
+        req.user.createOrder({
+          orderDate: orderDate,
+          totalAmt: totAmt
+        }).then(order => {
+          cartProducts.forEach(cartItem => {
+            const productId = cartItem.dataValues.id;
+            const quantity = parseInt(cartItem.dataValues.cartItems.quantity);
+            const totAmt = parseFloat(cartItem.dataValues.price) * quantity;
+            // Delete cart item
+            cartItem.cartItems.destroy();
+            // add order item
+            Product.findByPk(productId).then(product => {
+              order.addProduct(product, {
+                through: {
+                  quantity: quantity,
+                  totalAmt: totAmt
+                }
+              });
+            }).catch(err => res.status(500).json({ success: false }));
+          });
+
+          res.status(200).json({
+            orderid: order.dataValues.id,
+            success: true
+          });
+        }).catch(err => res.status(500).json({ success: false }));
+      }
+      else {
+        res.status(400).json({ success: false });
+      }
+    });
+  });
+}
+
 exports.getOrders = (req, res, next) => {
   res.render('shop/orders', {
     path: '/orders',
