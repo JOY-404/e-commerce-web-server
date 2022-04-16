@@ -183,7 +183,7 @@ exports.postCreateOrder = (req, res, next) => {
     })
     .catch(err => res.status(500).json({ success: false }));
 }
-
+ 
 exports.getOrders = (req, res, next) => {
   req.user.getOrders({ 
     include: ['products'], //This will also add products table to our result - important

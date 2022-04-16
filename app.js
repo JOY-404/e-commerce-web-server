@@ -4,6 +4,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
+
+const app = express();
+const dotenv = require('dotenv');
+// get config vars
+dotenv.config();
+
 const sequelize = require('./util/database');
 const Product = require('./models/product');
 const User = require('./models/user');
@@ -12,7 +18,6 @@ const CartItem = require('./models/cart-item');
 const Order = require('./models/order');
 const OrderDetail = require('./models/order-detail');
 
-const app = express();
 
 // CORS is for cross communication - data sharing
 var cors = require('cors');
@@ -59,7 +64,7 @@ sequelize
         return User.findByPk(1);
     }).then(user => {
         if(!user) {
-            return User.create({name: 'Janmejoy', email: 'joy@gmail.com'});
+            return User.create({name: 'Janmejoy Sahoo', email: 'janmejoysahoo007@gmail.com'});
         }
         return user;
     }).then(user => {
