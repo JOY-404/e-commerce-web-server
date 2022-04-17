@@ -31,11 +31,11 @@ exports.getCart = (req, res, next) => {
   let qryResult;
   
   req.user.getCart().then(async cart => {
-    //console.log(cart.dataValues.id);
+    //console.log(process.env.DB_NAME);
     const qry = `SELECT CASE WHEN ISNULL(COUNT(p.id)) THEN 0 ELSE COUNT(p.id) END AS cnt,
       CASE WHEN ISNULL(SUM(quantity)) THEN 0 ELSE SUM(quantity) END AS totQty, 
       CASE WHEN ISNULL(SUM(quantity * price)) THEN 0 ELSE SUM(quantity * price) END AS totAmt 
-      FROM \`node-connect\`.cartitems as c INNER JOIN \`node-connect\`.products as p ON p.id=c.productId 
+      FROM \`${process.env.DB_NAME}\`.cartitems as c INNER JOIN \`${process.env.DB_NAME}\`.products as p ON p.id=c.productId
       WHERE c.cartId=${cart.dataValues.id}`;
     
       qryResult = await sequelize.query(qry);
