@@ -1,9 +1,6 @@
 const path = require('path');
-
 const express = require('express');
 const bodyParser = require('body-parser');
-
-const errorController = require('./controllers/error');
 
 const app = express();
 const dotenv = require('dotenv');
@@ -18,12 +15,9 @@ const CartItem = require('./models/cart-item');
 const Order = require('./models/order');
 const OrderDetail = require('./models/order-detail');
 
-
 // CORS is for cross communication - data sharing
 var cors = require('cors');
 app.use(cors());
-app.set('view engine', 'ejs');
-app.set('views', 'views');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
@@ -40,8 +34,9 @@ app.use((req,res,next)=>{
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
-
-app.use(errorController.get404);
+app.use((req,res) => {
+    res.sendFile(path.join(__dirname, `public/${req.url}`));
+})
 
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE'});
 User.hasMany(Product); // Not required

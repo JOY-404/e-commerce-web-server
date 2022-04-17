@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
 
 * {
   box-sizing: border-box;
@@ -7,11 +7,77 @@
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Poppins", sans-serif;
+  background-color: #99C24D;
+  background: #99C24D url(../img/egg-shell.png) repeat !important;
+}
+
+footer{
+    display:flex;
+    margin-top:40px;
+    padding:20px;
+    background: #2F2D2E;
+}
+
+.compName {
+    background-image: url('../img/bg.jpg');
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    margin: 0 0 3rem;
+    min-height: 40vh;
+    font-size:50px;
+    font-weight:bold;
+    color:white;
+}
+
+.small-banner {
+    background-color: #2F2D2E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    min-height: 15vh;
+    font-size:30px;
+    font-weight:bold;
+    color: #99C24D;
+}
+
+footer .footer-title{
+    text-align: center;
+    color:#99C24D;
+    width:50%;
+    font-size:50px;
+    font-weight:bold;
+    margin:0 auto;
+}
+footer .footer-icons{
+    width:50%;
+    display:flex;
+    align-items:center;
+    justify-content: space-around;
+}
+.footer-icons ul{
+    list-style-type: none;
+}
+.footer-icons li{
+    padding:10px;
+    margin:0px 20px;
+}
+.footer-icons li a:hover{
+  color: #99C24D;
+}
+
+.footer-icons li a {
+  text-decoration: none;
+  color: white;
 }
 
 main {
-  padding: 1rem;
+  padding: 0rem;
   margin: auto;
 }
 
@@ -34,10 +100,13 @@ form {
 .main-header {
   width: 100%;
   height: 3.5rem;
-  background-color: #00695c;
+  background-color: #2F2D2E;
   padding: 0 1.5rem;
   display: flex;
   align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 10;
 }
 
 .main-header__nav {
@@ -66,54 +135,47 @@ form {
 .main-header__item a:hover,
 .main-header__item a:active,
 .main-header__item a.active {
-  color: #ffeb3b;
+  color: #99C24D;
 }
-
 .mobile-nav {
-  width: 30rem;
-  height: 100vh;
-  max-width: 90%;
-  position: fixed;
-  left: 0;
-  top: 0;
-  background: white;
-  z-index: 10;
-  padding: 2rem 1rem 1rem 2rem;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease-out;
+    background-color: #99C24D;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    padding: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 15;
 }
 
 .mobile-nav.open {
-  transform: translateX(0);
+    transform: translateX(0);
 }
 
 .mobile-nav__item-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
+    padding: 0;
+    list-style-type: none;
+    margin: 0;
 }
 
 .mobile-nav__item {
-  margin: 1rem;
-  padding: 0;
+    padding: 1rem 0;
 }
 
 .mobile-nav__item a {
-  text-decoration: none;
-  color: black;
-  font-size: 1.5rem;
-  padding: 0.5rem 2rem;
+    color: #2F2D2E;
+    text-decoration: none;
+  padding: 5px;
 }
 
 .mobile-nav__item a:active,
 .mobile-nav__item a:hover,
 .mobile-nav__item a.active {
-  background: #00695c;
-  color: white;
-  border-radius: 3px;
-}
+  background: #2F2D2E;
+  color: #99C24D;
+  border-radius: 5px;
+} 
 
 #side-menu-toggle {
   border: 1px solid white;
@@ -123,6 +185,10 @@ form {
   background: transparent;
   color: white;
   cursor: pointer;
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    width: 40px;
 }
 
 #side-menu-toggle:focus {
@@ -131,8 +197,8 @@ form {
 
 #side-menu-toggle:active,
 #side-menu-toggle:hover {
-  color: #ffeb3b;
-  border-color: #ffeb3b;
+  color: #99C24D;
+  border-color: #99C24D;
 }
 
 .backdrop {
@@ -154,7 +220,8 @@ form {
 }
 
 .card {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background-color: white;
 }
 
 .card__header,
@@ -192,17 +259,69 @@ form {
   padding: 0.25rem 1rem;
   text-decoration: none;
   font: inherit;
-  border: 1px solid #00695c;
-  color: #00695c;
+  border: 1px solid #2F2D2E;
+  color: #2F2D2E;
   background: white;
   border-radius: 3px;
   cursor: pointer;
 }
 
+.btn-danger {
+  padding: 0.08rem 0.6rem;
+  border: 1px solid rgb(223, 59, 59);
+  color: rgb(223, 59, 59);
+  background: white;
+  font-size: 15px;
+}
+
 .btn:hover,
 .btn:active {
-  background-color: #00695c;
+  background-color: #2F2D2E;
   color: white;
+}
+
+.btn-danger:hover,
+.btn-danger:active {
+  border: 1px solid rgb(223, 59, 59);
+  color: white;
+  background: rgb(223, 59, 59);
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.pagination span {
+  text-decoration: none;
+  color: #2F2D2E;
+  padding: 0 0.5rem;
+  border: 1px solid #2F2D2E;
+  margin: 0 0.4rem;
+  cursor: pointer;
+}
+
+.pagination span:hover, 
+.pagination span:active,
+.pagination span.active {
+  background-color: #2F2D2E;
+  color: #99C24D;
+}
+
+#notification {
+    position: fixed;
+    top: 3.5rem;
+    right: 0;
+    z-index: 100; 
+}
+
+.toast {
+    background-color: black;
+    color: white;
+    border-radius: 3px;
+    padding: 0.7rem 1.2rem;
+    margin: 0.5rem;
+    position: relative;
 }
 
 @media (min-width: 768px) {
@@ -212,5 +331,10 @@ form {
 
   #side-menu-toggle {
     display: none;
+  }
+  
+  .footer-icons ul{
+    list-style-type: none;
+    display:flex;
   }
 }

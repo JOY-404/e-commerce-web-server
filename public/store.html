@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>The Local Store</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- font awesome -->
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <main>
+        <div class="backdrop"></div>
+        <header class="main-header">
+            <button id="side-menu-toggle">☰</button>
+            <nav class="main-header__nav">
+                <ul class="main-header__item-list">
+                    <li class="main-header__item">
+                        <a class="" href="home.html">HOME</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="active" href="#">STORE</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="" href="orders.html">ORDERS</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="" href="about.html">ABOUT</a>
+                    </li>
+                    <li class="main-header__item cart">
+                        <a href="#cart-container" id="cart-btn1">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            CART<span class='cart-number'>0</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <nav class="mobile-nav">
+            <ul class="mobile-nav__item-list">
+                <li class="mobile-nav__item">
+                    <a class="" href="home.html">HOME</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a class="active" href="#">STORE</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a class="" href="orders.html">ORDERS</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a class="" href="about.html">ABOUT</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a href="#cart-container" id="cart-btn2"><i class="fa fa-shopping-cart" aria-hidden="true"></i> CART</a>
+                </li>
+            </ul>
+        </nav>
+        <div style="height: 55px;"></div>
+        <div class="compName">The Local Store</div>
+        <div align="center">
+            <h2>CLOTHING</h2>
+        </div>
+        
+        <div id="grid-items" class="grid"></div>
+        <section class="pagination"></section>
+
+        <div id="notification"></div>
+        <div class="popup-container" id="cart-container">
+            <div class="popup">
+                <button id="cart-close">x</button>
+                <h2>CART</h2>
+                <div class="cart-row cart-header">
+                    <span class="cart-col cart-item">ITEM</span>
+                    <span class="cart-col cart-price">PRICE</span>
+                    <span class="cart-col cart-qty">QUANTITY</span>
+                </div>
+                <div class="cart-items">
+                    <!-- <div class="cart-row">
+                        <span class='cart-item cart-col'>
+                            <img class='cart-img' src="./img/dress1.png" alt="">
+                            <span>T-Shirt</span>
+                        </span>
+                        <span class='cart-price cart-col'>₹ <span>19.99</span></span>
+                        <span class='cart-qty cart-col'>
+                            <input type="text">
+                            <button class="btn btn-danger">REMOVE</button>
+                        </span>
+                    </div> -->
+                </div>
+                <section class="pagination"></section>
+                <div class="cart-total">
+                    <span>
+                        <span class='total-title'> <strong>Total</strong>
+                        </span>
+                        ₹ <span id='total-value'>0</span>
+                    </span>
+                </div>
+                <button class="btn-order">ORDER NOW</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-title">
+            The Local Store
+        </div>
+        <div class="footer-icons">
+            <ul>
+                <li><a href="https://wa.me/916370434376" target="_blank"><i class="fa fa-whatsapp fa-2x"
+                            aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook fa-2x"
+                            aria-hidden="true"></i></a></li>
+                <li><a href="mailto:janmejoysahoo@gmail.com" target="_blank"><i class="fa fa-envelope-o fa-2x"
+                            aria-hidden="true"></i></a></li>           
+            </ul>
+        </div>
+    </footer>
+    <script src="./js/nav.js"></script>
+    <script src="./js/notify.js"></script>
+    <script src="./js/cart.js"></script>
+    <script src="./js/server.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+</body>
+</html>

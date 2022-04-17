@@ -22,33 +22,7 @@ exports.getProducts = (req, res, next) => {
       prevPage: page - 1,
       lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
     });
-    // res.render('shop/product-list', {
-    //   prods: products,
-    //   pageTitle: 'All Products',
-    //   path: '/products'
-    // });
   }).catch(err => res.status(500).json());
-};
-
-exports.getProduct = (req, res, next) => {
-  const prodId = req.params.productId;
-  Product.findByPk(prodId).then((product) => {
-    res.render('shop/product-detail', {
-      product: product,
-      pageTitle: product.title,
-      path: '/products'
-    });
-  }).catch(err=>console.log(err));
-};
-
-exports.getIndex = (req, res, next) => {
-  Product.findAll().then((products) => {
-    res.render('shop/index', {
-      prods: products,
-      pageTitle: 'Shop',
-      path: '/'
-    });
-  }).catch(err => console.log(err));
 };
 
 exports.getCart = (req, res, next) => {
@@ -83,11 +57,6 @@ exports.getCart = (req, res, next) => {
       cartTotQty: qryResult[0][0].totQty,
       cartTotPrice: qryResult[0][0].totAmt
     });
-      //   res.render('shop/cart', {
-      //     path: '/cart',
-      //     pageTitle: 'Your Cart',
-      //     products: products
-      // });
   }).catch (err => res.status(500).json());
 };
 
@@ -193,5 +162,5 @@ exports.getOrders = (req, res, next) => {
     ]
   }) 
   .then(orders => res.status(200).json(orders))
-  .catch(err => console.log(err));
+  .catch(err => res.status(500).json({ error: err }));
 };

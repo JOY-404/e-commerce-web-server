@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>The Local Store</title>
+    <link rel="stylesheet" href="../css/adminStyle.css">
+    <!-- font awesome -->
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <main>
+        <div class="backdrop"></div>
+        <header class="main-header">
+            <button id="side-menu-toggle">☰</button>
+            <nav class="main-header__nav">
+                <ul class="main-header__item-list">
+                    <li class="main-header__item">
+                        <span class="add-product">Add Product</span>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="active" href="#">Admin Products</a>
+                    </li>
+                    <li class="main-header__item">
+                        <a class="" href="../store.html">Main Store</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <nav class="mobile-nav">
+            <ul class="mobile-nav__item-list">
+                <li class="mobile-nav__item">
+                    <span class="add-product">Add Product</span>
+                </li>
+                <li class="mobile-nav__item">
+                    <a class="active" href="#">Admin Products</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a class="" href="../store.html">Main Store</a>
+                </li>
+            </ul>
+        </nav>
+        <div style="height: 55px;"></div>
+
+        <div id="grid-items" class="grid"></div>
+        <section class="pagination"></section>
+
+        <div id="notification"></div>
+        <div class="popup-container" id="product-container">
+            <div class="popup">
+                <button id="product-close">x</button>
+                <div class="product-form">
+                    <div class="form-control">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" value="">
+                    </div>
+                    <div class="form-control">
+                        <label for="imageUrl">Image URL</label>
+                        <input type="text" id="imageUrl" value="">
+                    </div>
+                    <div class="form-control">
+                        <label for="price">Price</label>
+                        <input type="number" id="price" step="1" value="">
+                    </div>
+                    <div class="form-control">
+                        <label for="description">Description</label>
+                        <textarea id="description" rows="5"></textarea>
+                    </div>
+                        <input type="hidden" value="" id="productId">
+                        <button class="btn btn-add-product">Add Product</button>
+                        <button class="btn btn-add-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="height: 20px;"></div>
+    </main>
+    <script src="../js/adminNav.js"></script>
+    <script src="../js/notify.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+</body>
+
+</html>
