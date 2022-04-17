@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:3000';
+const baseURL = 'http://54.149.19.138:3000';
 
 // pagination for products
 const paginatnProducts = document.querySelector('main .pagination');
