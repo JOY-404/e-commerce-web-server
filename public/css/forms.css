@@ -106,3 +106,13 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+
+@media (max-width: 768px) {
+.popup-container {
+  right: 0;
+}
+
+.popup {
+  width: 100%;
+}
+}
